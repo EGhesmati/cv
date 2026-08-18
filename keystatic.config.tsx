@@ -1,9 +1,19 @@
 import { config, collection, fields } from "@keystatic/core"
 
+const isProduction = process.env.NODE_ENV === "production"
+
 export default config({
-  storage: {
-    kind: "local",
-  },
+  // Local dev edits the filesystem directly (content/posts/ in this folder).
+  // Production (Vercel) reads/writes EGhesmati/cv via the GitHub API.
+  storage: isProduction
+    ? {
+        kind: "github",
+        repo: {
+          owner: "EGhesmati",
+          name: "cv",
+        },
+      }
+    : { kind: "local" },
   collections: {
     posts: collection({
       label: "Blog Posts",
