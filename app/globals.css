@@ -1,0 +1,499 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
+  --font-heading: var(--font-heading);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --radius-sm: calc(var(--radius) * 0.75);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.25);
+}
+
+:root {
+  /* Mozilla Protocol inspired palette */
+  --background: #ffffff;
+  --surface: #f9f9fb;
+  --foreground: #20123a;
+  --card: #ffffff;
+  --card-foreground: #20123a;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #ededf0;
+  --secondary-foreground: #20123a;
+  --muted: #f9f9fb;
+  --muted-foreground: #5f5b66;
+  --accent: #0060df;
+  --accent-foreground: #ffffff;
+  --destructive: #c70022;
+  --warning: #ff9400;
+  --warning-foreground: #231407;
+  --success: #058b00;
+  --success-foreground: #ffffff;
+  --border: rgba(32, 18, 58, 0.18);
+  --input: rgba(32, 18, 58, 0.22);
+  --ring: #9059ff;
+  --radius: 0.25rem;
+  --shadow-sm: 0 1px 0 rgba(32, 18, 58, 0.08);
+  --shadow-md: 0 2px 8px rgba(32, 18, 58, 0.08);
+  --container-sm: 40rem;
+  --container-md: 56rem;
+  --container-lg: 72rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+}
+
+.dark {
+  --background: #121018;
+  --surface: #1b1726;
+  --foreground: #f7f6fb;
+  --card: #1f1b2d;
+  --card-foreground: #f7f6fb;
+  --primary: #ffffff;
+  --primary-foreground: #121018;
+  --secondary: #2a2540;
+  --secondary-foreground: #f7f6fb;
+  --muted: #201b32;
+  --muted-foreground: #bcb6cd;
+  --accent: #8ac5ff;
+  --accent-foreground: #0f1b2d;
+  --destructive: #ff9cab;
+  --warning: #ffd08a;
+  --warning-foreground: #2f1f00;
+  --success: #80dd9c;
+  --success-foreground: #07210f;
+  --border: rgba(255, 255, 255, 0.16);
+  --input: rgba(255, 255, 255, 0.2);
+  --ring: #b18cff;
+  --shadow-sm: 0 1px 0 rgba(0, 0, 0, 0.32);
+  --shadow-md: 0 3px 14px rgba(0, 0, 0, 0.34);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply font-sans scroll-pt-14;
+    font-feature-settings: "calt", "liga", "kern";
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "calt", "liga", "kern";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading), Georgia, serif;
+  }
+
+  a {
+    @apply text-accent underline-offset-4 hover:underline;
+  }
+
+  /* Smooth theme transitions (disabled during first paint via layout script) */
+  @media (prefers-reduced-motion: no-preference) {
+    :where(html:not(.no-theme-transition)) :where(*),
+    :where(html:not(.no-theme-transition)) :where(*)::before,
+    :where(html:not(.no-theme-transition)) :where(*)::after {
+      transition-property: color, background-color, border-color,
+        outline-color, box-shadow, text-shadow, fill, stroke;
+      transition-duration: 200ms;
+      transition-timing-function: ease;
+    }
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: rgba(32, 18, 58, 0.12);
+    color: var(--foreground);
+  }
+
+  .dark ::selection {
+    background-color: rgba(255, 255, 255, 0.18);
+  }
+}
+
+@layer components {
+  .layout-shell {
+    @apply mx-auto w-full max-w-[var(--container-lg)] px-4 sm:px-6;
+  }
+
+  .section-wrap {
+    @apply py-12 sm:py-16 lg:py-20;
+  }
+
+  .page-title {
+    @apply font-heading text-3xl font-bold tracking-[-0.02em] text-foreground sm:text-4xl;
+  }
+
+  .page-lead {
+    @apply mt-3 max-w-2xl text-base leading-relaxed text-foreground/75;
+  }
+}
+
+/* ══════════════════════════════════════════════
+   Prose — Blog Post Typography
+   ══════════════════════════════════════════════ */
+
+.prose-custom {
+  @apply text-[15px] leading-[1.75] text-foreground/88;
+  font-feature-settings: "calt", "liga", "kern";
+}
+
+/* Headings */
+.prose-custom h2 {
+  @apply mt-14 mb-5 text-[1.625rem] font-bold leading-[1.25] tracking-[-0.015em] text-foreground;
+}
+
+.prose-custom h3 {
+  @apply mt-10 mb-4 text-[1.25rem] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground;
+}
+
+.prose-custom h2 + h3 {
+  @apply mt-6;
+}
+
+/* Paragraphs */
+.prose-custom p {
+  @apply mb-6;
+}
+
+.prose-custom p + p {
+  @apply mt-0;
+}
+
+/* Lists */
+.prose-custom ul,
+.prose-custom ol {
+  @apply mb-6 pl-6 space-y-2;
+}
+
+.prose-custom ul {
+  @apply list-disc;
+}
+
+.prose-custom ol {
+  @apply list-decimal;
+}
+
+.prose-custom li {
+  @apply pl-1 text-foreground/88;
+}
+
+.prose-custom li > ul,
+.prose-custom li > ol {
+  @apply mb-0 mt-2;
+}
+
+/* Blockquote */
+.prose-custom blockquote {
+  @apply my-8 border-l-[3px] border-border pl-5 text-base leading-[1.7] text-muted-foreground;
+  font-style: normal;
+}
+
+.prose-custom blockquote p {
+  @apply mb-0;
+}
+
+/* Links */
+.prose-custom a {
+  @apply font-medium text-accent underline decoration-accent/50 underline-offset-[3px] transition-colors hover:text-accent hover:decoration-accent;
+}
+
+/* Bold / Strong */
+.prose-custom strong {
+  @apply font-semibold text-foreground;
+}
+
+/* Inline code */
+.prose-custom :not(pre) > code {
+  @apply rounded-[3px] bg-secondary px-[5px] py-[2px] font-mono text-[0.875em] font-medium text-foreground/90;
+}
+
+/* Code blocks */
+.prose-custom pre {
+  @apply my-8 overflow-x-auto rounded-sm border border-border bg-[#1d1133] p-5;
+}
+
+.prose-custom pre code {
+  @apply bg-transparent p-0 font-mono text-[13px] leading-[1.65] text-white;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-feature-settings: "calt", "liga";
+}
+
+/* Pretty-code overrides */
+.prose-custom pre [data-line] {
+  @apply px-0;
+}
+
+.prose-custom figure[data-rehype-pretty-code-figure] {
+  @apply my-8;
+}
+
+.prose-custom figure[data-rehype-pretty-code-figure] figcaption {
+  @apply rounded-t-sm border border-b-0 border-border bg-secondary px-5 py-2.5 font-mono text-xs text-muted-foreground;
+}
+
+.prose-custom figure[data-rehype-pretty-code-figure] pre {
+  @apply mt-0 rounded-t-none;
+}
+
+/* Horizontal rule */
+.prose-custom hr {
+  @apply my-12 border-border;
+}
+
+/* Tables */
+.prose-custom table {
+  @apply w-full my-8 border-collapse text-sm;
+}
+
+.prose-custom th {
+  @apply border border-border bg-secondary px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground;
+}
+
+.prose-custom td {
+  @apply border border-border px-4 py-2.5 text-foreground/88;
+}
+
+/* Images */
+.prose-custom img {
+  @apply rounded-sm my-8;
+}
+
+/* ── Route transition + initial load polish ── */
+.route-progress-bar {
+  animation: route-progress 2s ease-out forwards;
+  transform-origin: left;
+}
+
+.route-progress-done {
+  animation: route-done 0.3s ease-out forwards;
+  transform-origin: left;
+}
+
+.page-enter {
+  animation: page-enter 0.45s ease-out both;
+}
+
+@keyframes route-progress {
+  0% {
+    transform: scaleX(0);
+  }
+  40% {
+    transform: scaleX(0.45);
+  }
+  100% {
+    transform: scaleX(0.85);
+  }
+}
+
+@keyframes route-done {
+  from {
+    transform: scaleX(0.85);
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter {
+    animation: none;
+  }
+  .route-progress-bar,
+  .route-progress-done {
+    animation-duration: 0.01s;
+  }
+}
+
+/* Alien mascot motion */
+.alien-mascot {
+  animation: alien-float 5.4s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+
+.alien-halo {
+  animation: alien-halo 4.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.alien-orb {
+  animation: alien-orb 2.4s ease-in-out infinite;
+}
+
+.alien-orb-delay {
+  animation: alien-orb 2.4s ease-in-out infinite 1.2s;
+}
+
+.alien-cursor {
+  animation: alien-cursor 1s steps(1) infinite;
+}
+
+.alien-beam {
+  animation: alien-beam 3.6s ease-in-out infinite;
+}
+
+.alien-lid-top,
+.alien-lid-bot {
+  animation: alien-blink 5.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.alien-lid-bot {
+  animation-name: alien-blink-bot;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alien-mascot,
+  .alien-halo,
+  .alien-orb,
+  .alien-orb-delay,
+  .alien-cursor,
+  .alien-beam,
+  .alien-lid-top,
+  .alien-lid-bot {
+    animation: none;
+  }
+}
+
+@keyframes alien-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes alien-halo {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes alien-orb {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes alien-cursor {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes alien-beam {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes alien-blink {
+  0%,
+  92%,
+  100% {
+    transform: translateY(0);
+  }
+  94%,
+  96% {
+    transform: translateY(10px);
+  }
+}
+
+@keyframes alien-blink-bot {
+  0%,
+  92%,
+  100% {
+    transform: translateY(0);
+  }
+  94%,
+  96% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Anchor links on headings */
+.prose-custom .anchor-link {
+  @apply ml-2.5 text-muted-foreground/30 opacity-0 transition-opacity duration-200 no-underline hover:text-muted-foreground;
+  font-size: 0.8em;
+  font-weight: 400;
+}
+
+.prose-custom h2:hover .anchor-link,
+.prose-custom h3:hover .anchor-link {
+  @apply opacity-100;
+}
+
+/* First element after heading shouldn't have excess gap */
+.prose-custom h2 + p,
+.prose-custom h3 + p {
+  @apply mt-0;
+}
