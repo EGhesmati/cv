@@ -111,8 +111,9 @@ export default function ResumePage() {
             </div>
 
             <a
-              href="/cv-resume.pdf"
-              download
+              href="https://www.dropbox.com/scl/fi/li3q9eaihezysxru5muus/Erfan_Ghesmati_Resume.pdf?rlkey=47xnqctxrmpqynzo380ylr144&st=wqcodayd&dl=1"
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
                 buttonVariants({ variant: "default", size: "default" }),
                 "self-start"
