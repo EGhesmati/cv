@@ -111,7 +111,7 @@ export default function ResumePage() {
             </div>
 
             <a
-              href="https://www.dropbox.com/scl/fi/1ixd6ceta8mc4x6bih0ho/Erfan_Ghesmati_ATS_Resume.pdf?rlkey=0f3cr4w6og5po2ozoqvp0knv2&st=i61h8sgb&dl=1"
+              href="https://www.dropbox.com/scl/fi/a73ho0hcv9r88ljuq5f6e/Erfan_Ghesmati_Resume.pdf?rlkey=zb3nh1739j6pdc2gml40ivjt6&st=rhjk234q&dl=0"
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
@@ -184,7 +184,7 @@ export default function ResumePage() {
                   Backend
                 </dt>
                 <dd className="mt-1.5 flex flex-wrap gap-1.5">
-                  {["REST APIs", "Spring Boot"].map((s) => (
+                  {["REST APIs", "Spring Boot", "Node.js", "Express.js"].map((s) => (
                     <Badge key={s} variant="secondary">
                       {s}
                     </Badge>
