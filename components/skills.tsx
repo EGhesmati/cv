@@ -8,6 +8,8 @@ import {
   SiNextdotjs,
   SiTailwindcss,
   SiSpringboot,
+  SiNodedotjs,
+  SiExpress,
   SiGit,
   SiGithub,
   SiDocker,
@@ -73,8 +75,11 @@ const categories: SkillCategory[] = [
     skills: [
       { name: "Spring Boot", icon: SiSpringboot, learning: true },
       { name: "REST APIs", icon: Globe },
+      { name: "Node.js", icon: SiNodedotjs },
+      { name: "Express.js", icon: SiExpress },
     ],
   },
+
   {
     title: "Tools",
     skills: [
