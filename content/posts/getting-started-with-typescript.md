@@ -1,5 +1,5 @@
 ---
-title: Getting Started with TypeScript fdf
+title: Getting Started with TypeScript
 description: >-
   A beginner-friendly guide to TypeScript fundamentals, covering types,
   interfaces, generics, and why you should consider using it in your next
