@@ -308,7 +308,7 @@
 }
 
 .page-enter {
-  animation: page-enter 0.45s ease-out both;
+  animation: page-enter 0.45s ease-out;
 }
 
 @keyframes route-progress {

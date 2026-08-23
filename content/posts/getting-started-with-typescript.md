@@ -1,10 +1,15 @@
 ---
-title: "Getting Started with TypeScript"
-description: "A beginner-friendly guide to TypeScript fundamentals, covering types, interfaces, generics, and why you should consider using it in your next project."
+title: Getting Started with TypeScript fdf
+description: >-
+  A beginner-friendly guide to TypeScript fundamentals, covering types,
+  interfaces, generics, and why you should consider using it in your next
+  project.
 date: 2025-01-10
-tags: [TypeScript, JavaScript, Web Development]
+tags:
+  - TypeScript
+  - JavaScript
+  - Web Development
 ---
-
 ## What is TypeScript?
 
 TypeScript is a strongly typed programming language that builds on JavaScript. It adds optional static typing and compiles to plain JavaScript, giving you better tooling and catching errors before they reach production.
@@ -15,10 +20,10 @@ JavaScript is dynamically typed, which means type errors only appear at runtime.
 
 ### Key Benefits
 
-- **Early error detection** — catch bugs before running your code
-- **Better IDE support** — autocompletion, navigation, and refactoring
-- **Self-documenting code** — types serve as documentation
-- **Safer refactoring** — the compiler tells you what broke
+* **Early error detection** — catch bugs before running your code
+* **Better IDE support** — autocompletion, navigation, and refactoring
+* **Self-documenting code** — types serve as documentation
+* **Safer refactoring** — the compiler tells you what broke
 
 ## Basic Types
 

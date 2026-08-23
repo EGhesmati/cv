@@ -1,10 +1,16 @@
 ---
-title: "Building a Clean Next.js Portfolio"
-description: "Learn how I built this minimalist portfolio using Next.js 15, TypeScript, Tailwind CSS, and the Mozilla Protocol design system with a focus on performance and readability."
-date: 2025-01-15
-tags: [Next.js, TypeScript, Tailwind CSS, Portfolio]
+title: Builds a Clean Next.js Portfolio
+description: >-
+  Learn how I built this minimalist portfolio using Next.js 15, TypeScript,
+  Tailwind CSS, and the Mozilla Protocol design system with a focus on
+  performance and readability.
+date: 2025-01-14
+tags:
+  - Next.js
+  - TypeScript
+  - Tailwind CSS
+  - Portfolio
 ---
-
 ## Why Build a Portfolio?
 
 Every developer needs a portfolio. It's your digital home on the internet — a place to showcase your work, share your thoughts, and connect with others in the community.
@@ -13,10 +19,10 @@ Every developer needs a portfolio. It's your digital home on the internet — a 
 
 When I set out to build this portfolio, I had a few key principles in mind:
 
-- **Minimalism**: Less is more. Plenty of whitespace lets content breathe.
-- **Typography-first**: Good fonts and proper spacing make reading effortless.
-- **Dark mode**: Respecting user preferences with system-aware theming.
-- **Performance**: Fast loads and zero unnecessary JavaScript.
+* **Minimalism**: Less is more. Plenty of whitespace lets content breathe.
+* **Typography-first**: Good fonts and proper spacing make reading effortless.
+* **Dark mode**: Respecting user preferences with system-aware theming.
+* **Performance**: Fast loads and zero unnecessary JavaScript.
 
 ## Tech Stack Choices
 
