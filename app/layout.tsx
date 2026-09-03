@@ -33,16 +33,16 @@ const zillaSlabHeading = Zilla_Slab({
 
 export const metadata: Metadata = {
   title: {
-    default: "Erfan Ghesmati — Software Engineer",
-    template: "%s — Erfan Ghesmati",
+    default: "erfan.dev — Developer CLI",
+    template: "%s — erfan.dev",
   },
   description:
-    "Software Engineer based in Turkey. Building clean, accessible web experiences.",
+    "Erfan Ghesmati — Computer Engineering Student & Full-Stack Developer. Build, explore, and connect through an interactive developer terminal.",
   metadataBase: new URL("https://erfanghesmati.com"),
   openGraph: {
-    title: "Erfan Ghesmati — Software Engineer",
+    title: "erfan.dev — Developer CLI",
     description:
-      "Software Engineer based in Turkey.",
+      "Computer Engineering Student & Full-Stack Developer",
     type: "website",
     locale: "en_US",
   },

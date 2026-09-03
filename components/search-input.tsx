@@ -1,6 +1,6 @@
 "use client"
 
-import { Search, X } from "lucide-react"
+import { X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface SearchInputProps {
@@ -17,14 +17,16 @@ export function SearchInput({
   className,
 }: SearchInputProps) {
   return (
-    <div className={cn("relative", className)}>
-      <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+    <div className={cn("relative font-mono", className)}>
+      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gh-green text-sm pointer-events-none select-none">
+        $
+      </span>
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full h-9 rounded-sm border border-border/60 bg-background pl-9 pr-8 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        className="w-full h-9 rounded-sm border border-border/60 bg-secondary/30 pl-7 pr-8 font-mono text-sm text-foreground placeholder:text-muted-foreground/60 outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       />
       {value && (
         <button

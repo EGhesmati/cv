@@ -37,11 +37,18 @@ export default async function TagPage({ params }: PageProps) {
       <div className="layout-shell">
         <Link
           href="/blog"
-          className="text-xs font-semibold text-muted-foreground no-underline transition-colors hover:text-foreground"
+          className="text-xs font-mono font-semibold text-muted-foreground no-underline transition-colors hover:text-foreground"
         >
-          &larr; Back to blog
+          ← back to blog
         </Link>
-        <h1 className="mt-4 font-heading text-3xl font-bold tracking-[-0.02em] text-foreground sm:text-4xl">
+        <div className="font-mono text-sm text-muted-foreground mt-4 mb-2">
+          <span className="text-gh-blue">erfan@dev</span>
+          <span className="text-muted-foreground">:</span>
+          <span className="text-gh-purple">~</span>
+          <span className="text-foreground">$ </span>
+          <span className="text-foreground">blog --tag &quot;{decodedTag}&quot;</span>
+        </div>
+        <h1 className="mt-2 font-heading text-3xl font-bold tracking-[-0.02em] text-foreground sm:text-4xl">
           Posts tagged &ldquo;{decodedTag}&rdquo;
         </h1>
         <p className="mt-2 text-sm text-foreground/55">

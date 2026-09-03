@@ -3,19 +3,30 @@
 import { useState, useMemo } from "react"
 import { Star, ExternalLink } from "lucide-react"
 import { SearchInput } from "@/components/search-input"
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { EmptyState } from "@/components/ui/state"
 import type { GitHubRepo } from "@/types/github"
 
 interface ProjectListProps {
   repos: GitHubRepo[]
+}
+
+const languageColors: Record<string, string> = {
+  TypeScript: "bg-gh-blue",
+  JavaScript: "bg-gh-orange",
+  HTML: "bg-gh-orange",
+  CSS: "bg-gh-purple",
+  Java: "bg-gh-red",
+  Python: "bg-gh-blue",
+}
+
+function LanguageDot({ language }: { language: string }) {
+  const color = languageColors[language] || "bg-gh-gray"
+  return (
+    <span className="inline-flex items-center gap-1.5">
+      <span className={`inline-block size-3 rounded-full ${color}`} />
+      <span>{language}</span>
+    </span>
+  )
 }
 
 export function ProjectList({ repos }: ProjectListProps) {
@@ -45,16 +56,16 @@ export function ProjectList({ repos }: ProjectListProps) {
 
   return (
     <>
-      <div className="mt-6">
+      <div className="mt-6 max-w-md">
         <SearchInput
           value={query}
           onChange={setQuery}
-          placeholder="Search projects..."
+          placeholder="Search repositories..."
         />
       </div>
 
       {query && (
-        <p className="mt-3 text-xs text-muted-foreground">
+        <p className="mt-3 text-xs font-mono text-muted-foreground">
           {filtered.length} {filtered.length === 1 ? "result" : "results"} for
           &ldquo;{query}&rdquo;
         </p>
@@ -63,60 +74,47 @@ export function ProjectList({ repos }: ProjectListProps) {
       {filtered.length === 0 ? (
         <EmptyState className="mt-12" title="No matching projects" description="Try another keyword or clear your search." />
       ) : (
-        <div className="mt-6 space-y-5">
+        <div className="mt-6 divide-y divide-border rounded-md border border-border bg-surface">
           {filtered.map((repo) => (
-            <Card key={repo.id} className="hover:border-accent/40">
-              <CardHeader>
-                <div className="flex items-start justify-between gap-4">
-                  <CardTitle className="text-lg font-semibold tracking-[-0.015em]">
-                    <a
-                      href={repo.html_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="no-underline transition-colors hover:text-accent"
-                    >
-                      {repo.name}
-                    </a>
-                  </CardTitle>
-                  {repo.stargazers_count > 0 && (
-                    <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
-                      <Star className="size-3" />
-                      {repo.stargazers_count}
-                    </span>
-                  )}
-                </div>
-                <CardDescription className="mt-2 text-[14px] leading-[1.65] text-foreground/60">
-                  {repo.description || "No description provided."}
-                </CardDescription>
-                <div className="flex flex-wrap items-center gap-2 mt-3">
-                  {repo.language && (
-                    <Badge variant="secondary" className="text-[11px]">
-                      {repo.language}
-                    </Badge>
-                  )}
-                  {repo.topics.slice(0, 5).map((topic) => (
-                    <Badge
-                      key={topic}
-                      variant="secondary"
-                      className="text-[11px]"
-                    >
-                      {topic}
-                    </Badge>
-                  ))}
-                </div>
-              </CardHeader>
-              <CardContent>
+            <div
+              key={repo.id}
+              className="p-4 hover:bg-secondary/40 transition-colors"
+            >
+              <div className="flex items-center justify-between gap-4">
                 <a
                   href={repo.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  className="font-mono text-sm font-semibold text-accent hover:underline underline-offset-4"
+                >
+                  {repo.name}
+                </a>
+                <span className="inline-flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
+                  <Star className="size-3" />
+                  {repo.stargazers_count}
+                </span>
+              </div>
+              <p className="mt-1.5 text-[14px] leading-[1.6] text-muted-foreground">
+                {repo.description || "No description provided."}
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-mono text-muted-foreground">
+                {repo.language && <LanguageDot language={repo.language} />}
+                {repo.topics.slice(0, 5).map((topic) => (
+                  <span key={topic} className="text-accent">
+                    #{topic}
+                  </span>
+                ))}
+                <a
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-foreground/50 hover:text-foreground transition-colors"
                 >
                   <ExternalLink className="size-3" />
-                  View on GitHub
+                  Code
                 </a>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       )}

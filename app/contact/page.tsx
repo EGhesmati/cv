@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { ExternalLink, Mail } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -58,41 +57,45 @@ export default function ContactPage() {
   return (
     <div className="section-wrap">
       <div className="layout-shell">
+        <div className="font-mono text-sm text-muted-foreground mb-4">
+          <span className="text-gh-green">erfan@dev</span>
+          <span className="text-muted-foreground">:</span>
+          <span className="text-gh-blue">~</span>
+          <span className="text-foreground">$ </span>
+          <span className="text-foreground">contact</span>
+        </div>
         <h1 className="page-title">Contact</h1>
         <p className="page-lead">
           Feel free to reach out. I&apos;m always open to new opportunities and
           collaborations.
         </p>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 divide-y divide-border rounded-md border border-border bg-surface">
           {contacts.map((contact) => (
-            <Card key={contact.label} className="group hover:border-accent/40">
-              <CardContent className="p-5">
-                <a
-                  href={contact.href}
-                  target={contact.href.startsWith("mailto") ? "_self" : "_blank"}
-                  rel={contact.href.startsWith("mailto") ? "" : "noopener noreferrer"}
-                  className="flex items-start gap-3.5"
-                >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-border/60 bg-secondary transition-colors group-hover:border-accent">
-                    <contact.icon />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5">
-                      <p className="text-sm font-semibold text-foreground">
-                        {contact.label}
-                      </p>
-                      {!contact.href.startsWith("mailto") && (
-                        <ExternalLink className="size-3 text-muted-foreground/50" />
-                      )}
-                    </div>
-                    <p className="mt-0.5 truncate text-[13px] leading-relaxed text-foreground/55">
-                      {contact.description}
-                    </p>
-                  </div>
-                </a>
-              </CardContent>
-            </Card>
+            <a
+              key={contact.label}
+              href={contact.href}
+              target={contact.href.startsWith("mailto") ? "_self" : "_blank"}
+              rel={contact.href.startsWith("mailto") ? "" : "noopener noreferrer"}
+              className="flex items-center gap-4 p-4 hover:bg-secondary/40 transition-colors no-underline group"
+            >
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-border bg-secondary text-foreground">
+                <contact.icon />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="font-mono text-sm font-semibold text-foreground group-hover:text-gh-blue transition-colors">
+                    <span className="text-gh-green/60">→</span> {contact.label}
+                  </p>
+                  {!contact.href.startsWith("mailto") && (
+                    <ExternalLink className="size-3 text-muted-foreground/50" />
+                  )}
+                </div>
+                <p className="mt-0.5 truncate font-mono text-[13px] text-muted-foreground">
+                  {contact.description}
+                </p>
+              </div>
+            </a>
           ))}
         </div>
       </div>

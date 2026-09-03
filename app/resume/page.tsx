@@ -84,6 +84,13 @@ export default function ResumePage() {
 
       <div className="section-wrap">
         <div className="layout-shell">
+          <div className="font-mono text-sm text-muted-foreground mb-4">
+            <span className="text-gh-green">erfan@dev</span>
+            <span className="text-muted-foreground">:</span>
+            <span className="text-gh-blue">~</span>
+            <span className="text-foreground">$ </span>
+            <span className="text-foreground">resume</span>
+          </div>
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
             <div>

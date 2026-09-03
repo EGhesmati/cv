@@ -16,6 +16,13 @@ export default function BlogPage() {
   return (
     <div className="section-wrap">
       <div className="layout-shell">
+        <div className="font-mono text-sm text-muted-foreground mb-4">
+          <span className="text-gh-green">erfan@dev</span>
+          <span className="text-muted-foreground">:</span>
+          <span className="text-gh-blue">~</span>
+          <span className="text-foreground">$ </span>
+          <span className="text-foreground">blog</span>
+        </div>
         <h1 className="page-title">
           Blog
         </h1>
