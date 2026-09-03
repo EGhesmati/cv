@@ -51,7 +51,6 @@ const jsonLd = {
     "Git",
     "Docker",
     "REST APIs",
-    "Spring Boot",
   ],
   address: {
     "@type": "PostalAddress",
@@ -111,8 +110,9 @@ export default function ResumePage() {
             </div>
 
             <a
-              href="/cv/Erfan_Ghesmati_Resume.pdf"
-              download
+              href="https://www.dropbox.com/scl/fi/xxwn0irg4dhmvv5zpfb4h/Erfan_Ghesmati_Resume.pdf?rlkey=k4yrxbf9qgspn5pw5uphjawjy&st=ce3lt9jg&dl=0"
+              target="_blank"
+              rel="noopener noreferrer"
               className={cn(
                 buttonVariants({ variant: "default", size: "default" }),
                 "self-start"
@@ -151,7 +151,6 @@ export default function ResumePage() {
                   {[
                     "TypeScript",
                     "JavaScript",
-                    "Java",
                     "HTML5",
                     "CSS3",
                   ].map((s) => (
@@ -183,7 +182,7 @@ export default function ResumePage() {
                   Backend
                 </dt>
                 <dd className="mt-1.5 flex flex-wrap gap-1.5">
-                  {["REST APIs", "Spring Boot", "Node.js", "Express.js"].map((s) => (
+                  {["REST APIs", "Node.js", "Express.js"].map((s) => (
                     <Badge key={s} variant="secondary">
                       {s}
                     </Badge>
@@ -202,7 +201,6 @@ export default function ResumePage() {
                     "Vite",
                     "npm",
                     "VS Code",
-                    "IntelliJ IDEA",
                   ].map((s) => (
                     <Badge key={s} variant="secondary">
                       {s}
