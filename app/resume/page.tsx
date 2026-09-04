@@ -68,8 +68,8 @@ export default async function ResumePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <section className="flex items-start justify-center py-5 sm:py-8">
-        <div className="w-full max-w-4xl px-3 sm:px-6">
+      <section className="flex flex-1 min-h-0 items-center justify-center p-3 sm:p-6">
+        <div className="flex h-full min-h-0 w-full max-w-4xl flex-col">
           <TerminalShell posts={posts} repos={repos} initialCommand="resume" />
         </div>
       </section>

@@ -44,7 +44,7 @@ export function Header() {
   }, [theme, setTheme])
 
   return (
-    <header className="sticky top-0 isolate z-[9999] w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
+    <header className="shrink-0 sticky top-0 isolate z-[9999] w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85">
       <div className="layout-shell flex h-12 items-center justify-between">
         {/* Logo */}
         <Link

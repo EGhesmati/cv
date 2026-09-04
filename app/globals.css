@@ -266,7 +266,8 @@
 .terminal-window {
   @apply flex flex-col overflow-hidden rounded-md border border-border bg-surface;
   box-shadow: var(--shadow-md);
-  height: clamp(420px, calc(100dvh - 10rem), 1040px);
+  height: 100%;
+  min-height: 0;
 }
 
 .terminal-titlebar {
@@ -285,17 +286,10 @@
 
 @media (max-width: 640px) {
   .terminal-window {
-    height: calc(100dvh - 8rem);
     border-radius: 0.375rem;
   }
   .terminal-body {
     font-size: 13px;
-  }
-}
-
-@media (max-width: 380px) {
-  .terminal-window {
-    height: calc(100dvh - 6.5rem);
   }
 }
 

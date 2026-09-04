@@ -63,7 +63,7 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} ${zillaSlab.variable} ${zillaSlabHeading.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col bg-background text-foreground">
+      <body className="h-dvh overflow-hidden flex flex-col bg-background text-foreground">
         {/*
           Prevent the theme "sweep" flash on first paint: while the page is
           loading we disable CSS transitions so the resolved theme (light/dark,
@@ -90,7 +90,7 @@ export default function RootLayout({
         <ThemeProvider>
           <RouteProgress />
           <Header />
-          <main className="flex-1 page-enter">{children}</main>
+          <main className="flex flex-1 min-h-0 flex-col overflow-hidden page-enter">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>
