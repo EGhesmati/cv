@@ -602,35 +602,19 @@ function ContactForm() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [message, setMessage] = useState("")
-  const [sent, setSent] = useState(false)
+
+  const canSubmit = name.trim() && email.trim() && message.trim()
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!name.trim() || !email.trim() || !message.trim()) return
-    setSent(true)
-  }
-
-  if (sent) {
-    return (
-      <div className="space-y-3 rounded-sm border border-gh-green/40 bg-gh-green/10 p-4 text-sm">
-        <div className="text-gh-green">✓ Message logged successfully.</div>
-        <p className="text-foreground/75">
-          Thanks, <span className="font-semibold">{name || "friend"}</span>.
-          Your message has been recorded on this dev machine.
-        </p>
-        <button
-          onClick={() => {
-            setSent(false)
-            setName("")
-            setEmail("")
-            setMessage("")
-          }}
-          className="rounded-sm font-mono text-xs text-accent hover:underline"
-        >
-          ← Write another
-        </button>
-      </div>
+    if (!canSubmit) return
+    const subject = encodeURIComponent(`Portfolio contact from ${name.trim()}`)
+    const body = encodeURIComponent(
+      `Name: ${name.trim()}\nEmail: ${email.trim()}\n\n${message.trim()}`
     )
+    // Standard HTTP-aligned location, works in the browser/email clients.
+    window.location.href =
+      `mailto:${PROFILE.email}?subject=${subject}&body=${body}`
   }
 
   return (
@@ -667,10 +651,13 @@ function ContactForm() {
       <button
         type="submit"
         className="rounded-sm border border-gh-green/50 bg-gh-green/10 px-4 py-2 text-sm font-medium text-gh-green transition-colors hover:bg-gh-green/20"
-        disabled={!name.trim() || !email.trim() || !message.trim()}
+        disabled={!canSubmit}
       >
         [ Send Message ]
       </button>
+      <p className="text-xs text-foreground/50">
+        Opens your email app addressed to {PROFILE.email}.
+      </p>
     </form>
   )
 }
