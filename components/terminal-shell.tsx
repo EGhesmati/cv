@@ -1117,7 +1117,9 @@ export function TerminalShell({
   }, [])
 
   const focusInput = useCallback(() => {
-    inputRef.current?.focus()
+    // preventScroll so focusing the prompt doesn't auto-scroll the terminal
+    // to the bottom, which would override our scroll-to-top on new views.
+    inputRef.current?.focus({ preventScroll: true })
   }, [])
 
   // After every command/view change, start each screen from the top.
