@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getPostsByTag, getAllTags } from "@/lib/posts"
-import { BlogCard } from "@/components/blog-card"
-import Link from "next/link"
+import { getRenderedPosts } from "@/lib/rendered-posts"
+import { TerminalShell } from "@/components/terminal-shell"
 
 interface PageProps {
   params: Promise<{ tag: string }>
@@ -18,8 +18,8 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { tag } = await params
   return {
-    title: `Posts tagged "${tag}"`,
-    description: `Blog posts tagged with "${tag}".`,
+    title: `Posts tagged "${decodeURIComponent(tag)}"`,
+    description: `Blog posts tagged with "${decodeURIComponent(tag)}".`,
   }
 }
 
@@ -32,35 +32,13 @@ export default async function TagPage({ params }: PageProps) {
     notFound()
   }
 
-  return (
-    <div className="section-wrap">
-      <div className="layout-shell">
-        <Link
-          href="/blog"
-          className="text-xs font-mono font-semibold text-muted-foreground no-underline transition-colors hover:text-foreground"
-        >
-          ← back to blog
-        </Link>
-        <div className="font-mono text-sm text-muted-foreground mt-4 mb-2">
-          <span className="text-gh-blue">erfan@dev</span>
-          <span className="text-muted-foreground">:</span>
-          <span className="text-gh-purple">~</span>
-          <span className="text-foreground">$ </span>
-          <span className="text-foreground">blog --tag &quot;{decodedTag}&quot;</span>
-        </div>
-        <h1 className="mt-2 font-heading text-3xl font-bold tracking-[-0.02em] text-foreground sm:text-4xl">
-          Posts tagged &ldquo;{decodedTag}&rdquo;
-        </h1>
-        <p className="mt-2 text-sm text-foreground/55">
-          {posts.length} post{posts.length !== 1 ? "s" : ""}
-        </p>
+  const all = await getRenderedPosts()
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {posts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
-          ))}
-        </div>
+  return (
+    <section className="flex items-start justify-center py-5 sm:py-8">
+      <div className="w-full max-w-4xl px-3 sm:px-6">
+        <TerminalShell posts={all} initialCommand="blog" />
       </div>
-    </div>
+    </section>
   )
 }

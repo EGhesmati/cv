@@ -21,6 +21,14 @@ export function Header() {
   const { theme, setTheme } = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  const isActive = useCallback(
+    (href: string) => {
+      if (href === "/") return pathname === "/"
+      return pathname === href || pathname.startsWith(href + "/")
+    },
+    [pathname]
+  )
+
   const toggleTheme = useCallback(() => {
     setTheme(theme === "dark" ? "light" : "dark")
   }, [theme, setTheme])
@@ -50,7 +58,7 @@ export function Header() {
               href={link.href}
               className={cn(
                 "rounded-sm px-2.5 py-1.5 text-xs font-medium font-mono no-underline transition-colors",
-                pathname === link.href
+                isActive(link.href)
                   ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:bg-secondary hover:text-foreground"
               )}
@@ -107,7 +115,7 @@ export function Header() {
                 onClick={() => setMobileOpen(false)}
                 className={cn(
                   "rounded-sm px-3 py-2 text-sm font-medium font-mono no-underline transition-colors",
-                  pathname === link.href
+                  isActive(link.href)
                     ? "bg-secondary text-foreground"
                     : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                 )}
