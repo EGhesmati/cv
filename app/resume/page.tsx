@@ -1,5 +1,6 @@
 import { TerminalShell } from "@/components/terminal-shell"
 import { getRenderedPosts } from "@/lib/rendered-posts"
+import { getGitHubRepos } from "@/lib/github"
 import type { Metadata } from "next"
 
 /** JSON-LD structured data for AI/LLM crawlability (schema.org/Person) */
@@ -56,8 +57,10 @@ export const metadata: Metadata = {
   },
 }
 
+export const revalidate = 3600
+
 export default async function ResumePage() {
-  const posts = await getRenderedPosts()
+  const [posts, repos] = await Promise.all([getRenderedPosts(), getGitHubRepos()])
 
   return (
     <>
@@ -67,7 +70,7 @@ export default async function ResumePage() {
       />
       <section className="flex items-start justify-center py-5 sm:py-8">
         <div className="w-full max-w-4xl px-3 sm:px-6">
-          <TerminalShell posts={posts} initialCommand="resume" />
+          <TerminalShell posts={posts} repos={repos} initialCommand="resume" />
         </div>
       </section>
     </>

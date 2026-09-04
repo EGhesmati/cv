@@ -13,11 +13,10 @@ import {
   EDUCATION,
   LANGUAGES,
   PROFILE,
-  PROJECTS,
   SKILLS,
   SUMMARY,
-  type Project,
 } from "@/lib/portfolio-data"
+import type { GitHubRepo } from "@/types/github"
 import { cn } from "@/lib/utils"
 import { registerTerminalHandler, setTerminalView } from "@/lib/terminal-commands"
 
@@ -90,6 +89,8 @@ interface TerminalShellProps {
   initialPostSlug?: string
   /** Server-rendered HTML for every post (enables in-terminal reading). */
   posts: RenderedPost[]
+  /** Server-fetched public GitHub repos (shown in the projects view). */
+  repos?: GitHubRepo[]
 }
 
 function formatDate(date: string): string {
@@ -244,7 +245,7 @@ function SkillsScreen() {
   )
 }
 
-function ProjectDetail({ project, onBack }: { project: Project; onBack: () => void }) {
+function RepoDetail({ repo, onBack }: { repo: GitHubRepo; onBack: () => void }) {
   return (
     <div className="space-y-4">
       <button
@@ -255,38 +256,44 @@ function ProjectDetail({ project, onBack }: { project: Project; onBack: () => vo
       </button>
       <div>
         <div className="text-base font-semibold text-gh-green sm:text-lg">
-          {project.name}
+          {repo.name}
         </div>
         <div className="select-none text-[11px] text-foreground/40">
           ────────────────────────────────────
         </div>
       </div>
-      <p className="text-sm leading-relaxed text-foreground/75">{project.desc}</p>
+      <p className="text-sm leading-relaxed text-foreground/75">
+        {repo.description || "No description provided."}
+      </p>
 
       <div>
         <div className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-gh-blue">
-          Technologies
+          Meta
         </div>
         <ul className="space-y-0.5 text-sm text-foreground">
-          {project.tech.map((t) => (
-            <li key={t}>· {t}</li>
-          ))}
+          <li>· Language: {repo.language || "—"}</li>
+          <li>· Stars: {repo.stargazers_count}</li>
+          <li>· Updated: {formatDate(repo.updated_at)}</li>
         </ul>
       </div>
 
-      <div>
-        <div className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-gh-blue">
-          Features
+      {repo.topics.length > 0 && (
+        <div>
+          <div className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-gh-blue">
+            Topics
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {repo.topics.map((t) => (
+              <span
+                key={t}
+                className="rounded-sm border border-border bg-secondary/40 px-2 py-0.5 font-mono text-[11px] text-foreground/70"
+              >
+                #{t}
+              </span>
+            ))}
+          </div>
         </div>
-        <ul className="space-y-1 text-sm text-foreground/80">
-          {project.features.map((f) => (
-            <li key={f} className="flex gap-2">
-              <span className="text-gh-green">▸</span>
-              <span>{f}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      )}
 
       <div className="space-y-1 text-sm">
         <div className="mb-1 text-xs font-semibold uppercase tracking-wider text-gh-blue">
@@ -295,7 +302,7 @@ function ProjectDetail({ project, onBack }: { project: Project; onBack: () => vo
         <div className="flex gap-2">
           <span className="text-gh-green">→</span>
           <a
-            href={project.github}
+            href={repo.html_url}
             target="_blank"
             rel="noopener noreferrer"
             className="text-accent hover:underline"
@@ -303,72 +310,83 @@ function ProjectDetail({ project, onBack }: { project: Project; onBack: () => vo
             Repository
           </a>
         </div>
-        {project.live && (
-          <div className="flex gap-2">
-            <span className="text-gh-green">→</span>
-            <a
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent hover:underline"
-            >
-              Live Demo
-            </a>
-          </div>
-        )}
+        <div className="flex gap-2">
+          <span className="text-gh-green">→</span>
+          <button
+            onClick={onBack}
+            className="cursor-pointer text-accent hover:underline"
+          >
+            Back to all
+          </button>
+        </div>
       </div>
     </div>
   )
 }
 
 function ProjectsScreen({
+  repos,
   selected,
   onSelect,
   onBack,
 }: {
+  repos: GitHubRepo[]
   selected: string | null
   onSelect: (name: string) => void
   onBack: () => void
 }) {
   if (selected) {
-    const project = PROJECTS.find((p) => p.name === selected)
-    if (!project) {
+    const repo = repos.find((r) => r.name === selected)
+    if (!repo) {
       return (
-        <div className="text-gh-red">
-          Repository not found: {selected}.
-        </div>
+        <div className="text-gh-red">Repository not found: {selected}.</div>
       )
     }
-    return <ProjectDetail project={project} onBack={onBack} />
+    return <RepoDetail repo={repo} onBack={onBack} />
   }
 
   return (
     <div className="space-y-4">
-      <TerminalTitle>projects — repositories</TerminalTitle>
+      <TerminalTitle>projects — {repos.length} repositories</TerminalTitle>
       <div className="space-y-2">
-        {PROJECTS.map((p) => (
+        {repos.map((r) => (
           <button
-            key={p.name}
-            onClick={() => onSelect(p.name)}
+            key={r.id}
+            onClick={() => onSelect(r.name)}
             className="group w-full rounded-sm border border-border bg-secondary/30 px-3 py-3 text-left transition-colors hover:border-gh-green/40 hover:bg-secondary/50"
           >
             <div className="flex items-baseline justify-between gap-3">
               <span className="font-mono text-sm font-semibold text-gh-green">
-                {p.name}
+                {r.name}
               </span>
-              <span className="text-xs text-muted-foreground">→</span>
+              <span className="flex shrink-0 items-center gap-2 text-xs text-muted-foreground">
+                {r.language && <span className="hidden sm:inline">{r.language}</span>}
+                {r.stargazers_count > 0 && <span>★ {r.stargazers_count}</span>}
+                <span>→</span>
+              </span>
             </div>
-            <p className="mt-1 text-[13px] leading-snug text-foreground/70">
-              {p.desc}
-            </p>
-            <div className="mt-1.5 font-mono text-xs text-foreground/50">
-              {p.tech.join(" · ")}
-            </div>
+            {r.description && (
+              <p className="mt-1 text-[13px] leading-snug text-foreground/70">
+                {r.description}
+              </p>
+            )}
+            {r.topics.length > 0 && (
+              <div className="mt-1.5 flex flex-wrap gap-1 font-mono text-[11px] text-foreground/50">
+                {r.topics.slice(0, 4).map((t) => (
+                  <span key={t}>#{t}</span>
+                ))}
+              </div>
+            )}
           </button>
         ))}
       </div>
+      {repos.length === 0 && (
+        <p className="text-sm text-foreground/60">
+          No public repositories found.
+        </p>
+      )}
       <p className="pt-1 text-xs text-muted-foreground">
-        More on{" "}
+        Shown live from{" "}
         <a
           href={PROFILE.github}
           target="_blank"
@@ -721,7 +739,7 @@ function ContactScreen() {
   )
 }
 
-function GithubScreen() {
+function GithubScreen({ repos }: { repos: GitHubRepo[] }) {
   return (
     <div className="space-y-4">
       <TerminalTitle>github — EGhesmati</TerminalTitle>
@@ -747,29 +765,34 @@ function GithubScreen() {
         </a>
       </div>
       <p className="text-sm text-foreground/75">
-        Browse my pinned repositories right here:
+        Browse my public repositories right here:
       </p>
       <div className="grid gap-2 sm:grid-cols-2">
-        {PROJECTS.map((p) => (
+        {repos.map((r) => (
           <a
-            key={p.name}
-            href={p.github}
+            key={r.id}
+            href={r.html_url}
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-sm border border-border bg-secondary/30 p-3 no-underline transition-colors hover:border-gh-green/40"
           >
             <div className="font-mono text-sm font-semibold text-accent">
-              {p.name}
+              {r.name}
             </div>
             <p className="mt-1 line-clamp-2 text-xs leading-snug text-foreground/70">
-              {p.desc}
+              {r.description || "No description provided."}
             </p>
             <div className="mt-2 font-mono text-[11px] text-foreground/50">
-              {p.tech[0]}
+              {r.language || "—"}
             </div>
           </a>
         ))}
       </div>
+      {repos.length === 0 && (
+        <p className="text-sm text-foreground/60">
+          No public repositories found.
+        </p>
+      )}
     </div>
   )
 }
@@ -1024,7 +1047,12 @@ const NAV_IDS = new Set<Screen["id"]>([
   "github",
 ])
 
-export function TerminalShell({ initialCommand, initialPostSlug, posts }: TerminalShellProps) {
+export function TerminalShell({
+  initialCommand,
+  initialPostSlug,
+  posts,
+  repos = [],
+}: TerminalShellProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
   const idCounter = useRef(0)
@@ -1059,6 +1087,9 @@ export function TerminalShell({ initialCommand, initialPostSlug, posts }: Termin
   })
 
   const screenRef = useRef(screen)
+  // When set, the next non-render update scrolls the terminal body to the
+  // top (used after every command/view change so each screen starts at 0).
+  const pendingTopRef = useRef(false)
 
   const [log, setLog] = useState<LogEntry[]>([])
   const [input, setInput] = useState("")
@@ -1079,9 +1110,9 @@ export function TerminalShell({ initialCommand, initialPostSlug, posts }: Termin
     setLog((prev) => [...prev, { ...entry, id: idCounter.current }])
   }, [])
 
-  const scrollToBottom = useCallback(() => {
+  const scrollToTop = useCallback(() => {
     if (bodyRef.current) {
-      bodyRef.current.scrollTop = bodyRef.current.scrollHeight
+      bodyRef.current.scrollTop = 0
     }
   }, [])
 
@@ -1089,10 +1120,13 @@ export function TerminalShell({ initialCommand, initialPostSlug, posts }: Termin
     inputRef.current?.focus()
   }, [])
 
-  // Re-scroll when log or screen changes
+  // After every command/view change, start each screen from the top.
   useEffect(() => {
-    scrollToBottom()
-  }, [log, screen, scrollToBottom])
+    if (pendingTopRef.current) {
+      pendingTopRef.current = false
+      scrollToTop()
+    }
+  }, [log, screen, scrollToTop])
 
   // Global Ctrl+K focuses input
   useEffect(() => {
@@ -1120,22 +1154,26 @@ export function TerminalShell({ initialCommand, initialPostSlug, posts }: Termin
   )
 
   const go = useCallback((id: Screen["id"]) => {
+    pendingTopRef.current = true
     setScreen({ id } as Screen)
   }, [])
 
   const openPost = useCallback(
     (slug: string) => {
+      pendingTopRef.current = true
       setScreen({ id: "blog", selectedSlug: slug })
     },
     []
   )
 
   const openProject = useCallback((name: string) => {
+    pendingTopRef.current = true
     setScreen({ id: "projects", selected: name })
   }, [])
 
   const navigateScreen = useCallback(
     (id: Screen["id"]) => {
+      pendingTopRef.current = true
       focusInput()
       setScreen({ id } as Screen)
     },
@@ -1156,6 +1194,7 @@ export function TerminalShell({ initialCommand, initialPostSlug, posts }: Termin
     (raw: string) => {
       const trimmed = raw.trim()
       pushCmd(raw)
+      pendingTopRef.current = true
 
       if (!trimmed) return
 
@@ -1441,6 +1480,7 @@ export function TerminalShell({ initialCommand, initialPostSlug, posts }: Termin
             screen={currentScreen}
             posts={sortedPosts}
             postsBySlug={postsBySlug}
+            repos={repos}
             open={go}
             openPost={openPost}
             openProject={openProject}
@@ -1541,6 +1581,7 @@ function RenderScreen({
   screen,
   posts,
   postsBySlug,
+  repos,
   open,
   openPost,
   openProject,
@@ -1549,6 +1590,7 @@ function RenderScreen({
   screen: Screen
   posts: RenderedPost[]
   postsBySlug: Map<string, RenderedPost>
+  repos: GitHubRepo[]
   open: (id: Screen["id"]) => void
   openPost: (slug: string) => void
   openProject: (name: string) => void
@@ -1564,6 +1606,7 @@ function RenderScreen({
     case "projects":
       return (
         <ProjectsScreen
+          repos={repos}
           selected={screen.selected}
           onSelect={openProject}
           onBack={() => open("projects")}
@@ -1602,7 +1645,7 @@ function RenderScreen({
     case "contact":
       return <ContactScreen />
     case "github":
-      return <GithubScreen />
+      return <GithubScreen repos={repos} />
     default:
       return <HomeScreen open={open} />
   }

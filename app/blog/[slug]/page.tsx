@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getAllPosts } from "@/lib/posts"
 import { getRenderedPostsForSlug } from "@/lib/rendered-posts"
+import { getGitHubRepos } from "@/lib/github"
 import { TerminalShell } from "@/components/terminal-shell"
 
 interface PageProps {
@@ -44,10 +45,17 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound()
   }
 
+  const repos = await getGitHubRepos()
+
   return (
     <section className="flex items-start justify-center py-5 sm:py-8">
       <div className="w-full max-w-4xl px-3 sm:px-6">
-        <TerminalShell posts={all} initialCommand="blog" initialPostSlug={slug} />
+        <TerminalShell
+          posts={all}
+          repos={repos}
+          initialCommand="blog"
+          initialPostSlug={slug}
+        />
       </div>
     </section>
   )
