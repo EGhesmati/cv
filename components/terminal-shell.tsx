@@ -19,6 +19,7 @@ import {
   type Project,
 } from "@/lib/portfolio-data"
 import { cn } from "@/lib/utils"
+import { registerTerminalHandler, setTerminalView } from "@/lib/terminal-commands"
 
 /* ══════════════════════════════════════════════
    Types
@@ -1067,9 +1068,10 @@ export function TerminalShell({ initialCommand, initialPostSlug, posts }: Termin
   const [suggestionItems, setSuggestionItems] = useState<string[]>([])
 
   // Keep the ref in sync for the `back` command (assigned in an effect,
-  // not during render).
+  // not during render). Also surface the active view to the header taskbar.
   useEffect(() => {
     screenRef.current = screen
+    setTerminalView(screen.id)
   }, [screen])
 
   const addLog = useCallback((entry: Omit<LogEntry, "id">) => {
@@ -1295,6 +1297,12 @@ export function TerminalShell({ initialCommand, initialPostSlug, posts }: Termin
     },
     [pushCmd, addLog, history, navigateScreen, openPost, postsBySlug, openProject]
   )
+
+  // Let the header "taskbar" dispatch commands into this terminal instance.
+  useEffect(() => {
+    const unbind = registerTerminalHandler((cmd) => executeCommand(cmd))
+    return unbind
+  }, [executeCommand])
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {

@@ -1,32 +1,42 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Moon, Sun, Menu, X } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useState, useCallback } from "react"
+import { runTerminalCommand, useTerminalView } from "@/lib/terminal-commands"
 
 const navLinks = [
-  { href: "/", label: "Home", command: "~" },
-  { href: "/projects", label: "Projects", command: "projects" },
-  { href: "/blog", label: "Blog", command: "blog" },
-  { href: "/resume", label: "Resume", command: "resume" },
-  { href: "/contact", label: "Contact", command: "contact" },
+  { href: "/", label: "Home", command: "home", view: "home", display: "~" },
+  { href: "/projects", label: "Projects", command: "projects", view: "projects", display: "projects" },
+  { href: "/blog", label: "Blog", command: "blog", view: "blog", display: "blog" },
+  { href: "/resume", label: "Resume", command: "resume", view: "resume", display: "resume" },
+  { href: "/contact", label: "Contact", command: "contact", view: "contact", display: "contact" },
 ]
 
 export function Header() {
-  const pathname = usePathname()
+  const router = useRouter()
   const { theme, setTheme } = useTheme()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const activeView = useTerminalView()
+
+  const openView = useCallback(
+    (link: (typeof navLinks)[number]) => {
+      setMobileOpen(false)
+      if (!runTerminalCommand(link.command)) {
+        // No terminal mounted (e.g. a non-terminal page) — fall back to route.
+        router.push(link.href)
+      }
+    },
+    [router]
+  )
 
   const isActive = useCallback(
-    (href: string) => {
-      if (href === "/") return pathname === "/"
-      return pathname === href || pathname.startsWith(href + "/")
-    },
-    [pathname]
+    (link: (typeof navLinks)[number]) => activeView === link.view,
+    [activeView]
   )
 
   const toggleTheme = useCallback(() => {
@@ -53,18 +63,20 @@ export function Header() {
         {/* Desktop nav */}
         <nav className="hidden sm:flex items-center gap-0.5" aria-label="Main navigation">
           {navLinks.map((link) => (
-            <Link
+            <button
               key={link.href}
-              href={link.href}
+              type="button"
+              onClick={() => openView(link)}
+              aria-current={isActive(link) ? "true" : undefined}
               className={cn(
-                "rounded-sm px-2.5 py-1.5 text-xs font-medium font-mono no-underline transition-colors",
-                isActive(link.href)
+                "cursor-pointer rounded-sm px-2.5 py-1.5 text-xs font-medium font-mono no-underline transition-colors",
+                isActive(link)
                   ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:bg-secondary hover:text-foreground"
               )}
             >
-              <span className="text-gh-green/60">$</span> {link.command}
-            </Link>
+              <span className="text-gh-green/60">$</span> {link.display}
+            </button>
           ))}
           <Button
             variant="outline"
@@ -109,19 +121,20 @@ export function Header() {
         <nav className="sm:hidden border-t border-border bg-background py-2" aria-label="Mobile navigation">
           <div className="layout-shell flex flex-col gap-0.5">
             {navLinks.map((link) => (
-              <Link
+              <button
                 key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
+                type="button"
+                onClick={() => openView(link)}
+                aria-current={isActive(link) ? "true" : undefined}
                 className={cn(
-                  "rounded-sm px-3 py-2 text-sm font-medium font-mono no-underline transition-colors",
-                  isActive(link.href)
+                  "cursor-pointer rounded-sm px-3 py-2 text-left text-sm font-medium font-mono no-underline transition-colors",
+                  isActive(link)
                     ? "bg-secondary text-foreground"
                     : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                 )}
               >
-                <span className="text-gh-green/60">$</span> {link.command}
-              </Link>
+                <span className="text-gh-green/60">$</span> {link.display}
+              </button>
             ))}
           </div>
         </nav>
