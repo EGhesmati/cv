@@ -31,14 +31,6 @@ export function Footer() {
               LinkedIn
             </a>
           </div>
-          <div className="flex items-center gap-4 text-xs font-mono text-muted-foreground">
-            <Link href="/blog" className="no-underline transition-colors hover:text-foreground">
-              blog
-            </Link>
-            <Link href="/api/rss" className="no-underline transition-colors hover:text-foreground">
-              rss
-            </Link>
-          </div>
           <p className="text-xs font-mono text-muted-foreground/70">
             &copy; {new Date().getFullYear()} erfan.dev
           </p>
