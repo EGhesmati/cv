@@ -1,10 +1,14 @@
 ---
-title: "Why I Love Tailwind CSS"
-description: "Thoughts on why Tailwind CSS has become my go-to styling solution, from developer experience to production performance."
+title: 'Why I Love Tailwind '
+description: >-
+  Thoughts on why Tailwind CSS has become my go-to styling solution, from
+  developer experience to production performance.
 date: 2025-01-05
-tags: [Tailwind CSS, CSS, Web Development]
+tags:
+  - Tailwind CSS
+  - CSS
+  - Web Development
 ---
-
 ## The Utility-First Approach
 
 Tailwind CSS takes a different approach to styling. Instead of writing custom CSS for every component, you compose designs using utility classes directly in your HTML.
@@ -38,9 +42,9 @@ With editor extensions and the Tailwind IntelliSense plugin, writing styles beco
 
 Tailwind isn't without critics. Common complaints include:
 
-- "It's just inline styles" — but with constraints and responsive variants
-- "It makes HTML messy" — which component abstraction solves
-- "It's not real CSS" — it's a tool, not a replacement
+* "It's just inline styles" — but with constraints and responsive variants
+* "It makes HTML messy" — which component abstraction solves
+* "It's not real CSS" — it's a tool, not a replacement
 
 ## What I've Learned
 

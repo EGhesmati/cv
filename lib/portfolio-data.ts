@@ -42,8 +42,8 @@ export const PROJECTS: Project[] = [
 
 export const PROFILE = {
   name: "Erfan Ghesmati",
-  role: "Full-Stack Developer",
-  tagline: "Computer Engineering Student · Full-Stack Developer",
+  role: "Software Engineer",
+  tagline: "Computer Engineering Student · Software Engineer",
   bio: "Building modern web applications with React, Next.js, TypeScript, and Tailwind CSS.",
   location: "Turkey",
   site: "erfanghesmati.com",
