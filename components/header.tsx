@@ -49,15 +49,10 @@ export function Header() {
         {/* Logo */}
         <Link
           href="/"
-          className="font-mono text-sm font-semibold text-foreground no-underline transition-opacity hover:opacity-80"
-          aria-label="erfan.dev"
+          className="text-lg font-bold tracking-[0.08em] text-foreground no-underline transition-opacity hover:opacity-80"
+          aria-label="ERFAN GHESMATI"
         >
-          <span className="text-gh-green">erfan</span>
-          <span className="text-muted-foreground">@</span>
-          <span className="text-muted-foreground">dev</span>
-          <span className="text-muted-foreground">:</span>
-          <span className="text-gh-blue">~</span>
-          <span className="text-foreground">$</span>
+          <span className="font-futuristic">ERFAN&nbsp;GHESMATI</span>
         </Link>
 
         {/* Desktop nav */}

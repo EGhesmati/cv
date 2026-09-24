@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Inter, JetBrains_Mono, Zilla_Slab } from "next/font/google"
+import { Inter, JetBrains_Mono, Zilla_Slab, Orbitron } from "next/font/google"
 import Script from "next/script"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -31,6 +31,12 @@ const zillaSlabHeading = Zilla_Slab({
   weight: ["500", "600", "700"],
 })
 
+const orbitron = Orbitron({
+  variable: "--font-futuristic",
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800", "900"],
+})
+
 export const metadata: Metadata = {
   title: {
     default: "erfan.dev — Developer CLI",
@@ -60,7 +66,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${zillaSlab.variable} ${zillaSlabHeading.variable} antialiased`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${zillaSlab.variable} ${zillaSlabHeading.variable} ${orbitron.variable} antialiased`}
       suppressHydrationWarning
     >
       <body className="h-dvh overflow-hidden flex flex-col bg-background text-foreground">
